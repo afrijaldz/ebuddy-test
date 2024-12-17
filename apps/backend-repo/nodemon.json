@@ -1,0 +1,5 @@
+{
+  "watch": ["core", "entities", "controller", "routes", "repository"],
+  "ext": "ts",
+  "exec": "ts-node core/app.ts"
+}
