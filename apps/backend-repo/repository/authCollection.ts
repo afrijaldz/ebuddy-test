@@ -1,4 +1,7 @@
 import admin from 'firebase-admin'
+import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { auth as firebaseAuth} from '../config/firebaseConfig'
+import { User } from '@ebuddy-test/types'
 
 const serviceAccount = require("../config/ebuddy-test-firebase.json");
 
@@ -24,8 +27,22 @@ export default function authCollection() {
     }
   }
   
+  async function login(email: string, password: string): Promise<User>  {
+    try {
+      
+      const user: UserCredential = await signInWithEmailAndPassword(firebaseAuth, email, password)
+  
+      if (!user) throw new Error('User not found')
+      const userProvider = user.user as unknown as User
+      return userProvider
+    } catch (error) {
+      throw error
+    }
+  }
+  
   return {
-    register
+    register,
+    login
   }
 }
 

@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@ebuddy-test/types": "workspace:~",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
