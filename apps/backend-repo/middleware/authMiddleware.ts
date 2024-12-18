@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import admin from 'firebase-admin'
-import { RequestOptions } from "../utils/request";
+import { RequestOptions } from "../types/controller";
 
 const serviceAccount = require("../config/ebuddy-test-firebase.json");
 

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { RequestOptions } from "../utils/request";
+import { RequestOptions } from "../types/controller";
 
 export const responseMiddleware = (req: RequestOptions, res: Response): void =>  {
   const { data } = req;
