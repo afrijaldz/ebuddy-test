@@ -1,17 +1,31 @@
 import { NextFunction, Request, Response } from "express";
+import admin from 'firebase-admin'
+import { RequestOptions } from "../utils/request";
 
-async function authMiddleware(request: Request, response: Response, next: NextFunction) {
-  // const token = request.headers.authorization?.split(' ')[1];
+const serviceAccount = require("../config/ebuddy-test-firebase.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
+
+const auth = admin.auth();
+
+async function authMiddleware(request: RequestOptions, response: Response, next: NextFunction) {
+  const token = request.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    response.status(401).json({ message: 'No token provided' });
+    return
+  }
+
   try {
-    // const decoded = await jwt.verify(token, process.env.JWT_KEY);
-    // request.user = decoded;
+    const decodedToken = await auth.verifyIdToken(token);
+    request.user_auth = decodedToken;
     next();
   } catch (error: any) {
-    response.status(500).json({
-      status: 'ERROR',
-      message: error.message,
-      meta: null,
-      data: null,
+    response.status(401).json({
+      status: 'error',
+      message: 'Invalid token or credentials',
     });
   }
 }

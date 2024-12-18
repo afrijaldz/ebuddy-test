@@ -1,49 +1,50 @@
-import userCollection from '../repository/userCollection'
+import { NextFunction, Request, Response } from 'express';
+import authCollection from '../repository/authCollection'
+import { RequestOptions } from '../utils/request';
 
-const AuthService = require('../services/AuthService');
-
-
-
-exports.register = async (req, res, next) => {
-  const {
-    name,
-    email,
-    password,
-    phone,
-  } = req.body;
+export const getUsers = async (request: RequestOptions, _: Response, next: NextFunction) => {
+  const { email, password, displayName} = request.body
 
   try {
-    const userData = {
-      name,
-      email,
-      password,
-      phone,
-    };
-
-    const data = await AuthService.register(userData);
-    req.data = data;
-    next();
+    const data = await authCollection().register(email, password, displayName)
+    if (data) {
+      request.data = data
+      request.statusCode = 201
+      next()
+    }
+    
   } catch (error) {
-    console.log(error);
-    req.data = null;
-    req.message = error;
-    req.status = 'ERROR';
+    request.data = null;
+    request.message = error;
+    request.statusCode = 400
+    request.status = 'error';
     next();
   }
-};
+}
 
-exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
+export const updateUser = async (request: RequestOptions, _: Response, next: NextFunction ) => {
+  const { email, password } = request.body
+
   try {
-    const { user, token } = await AuthService.login({ email, password });
-    req.data = user;
-    req.meta = { token };
+    const data: any = await authCollection().login(email, password)
 
-    next();
+    if (!data) {
+      request.data = null;
+      request.message = 'User not found';
+      request.statusCode = 401
+      request.status = 'error';
+      next();
+    }
+
+    request.data = data
+    request.statusCode = 200
+    next()
+    
   } catch (error) {
-    req.data = null;
-    req.message = error.message;
-    req.status = 'ERROR';
+    request.data = null;
+    request.message = error;
+    request.statusCode = error === 'auth/invalid-credential' ? 401: 400
+    request.status = 'error';
     next();
   }
-};
+}
