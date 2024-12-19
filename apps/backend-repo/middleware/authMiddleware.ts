@@ -1,21 +1,19 @@
 import { NextFunction, Request, Response } from "express";
-import admin from 'firebase-admin'
 import { RequestOptions } from "../types/controller";
+import { firebaseAdmin } from "../config/firebaseConfig";
 
-const serviceAccount = require("../config/ebuddy-test-firebase.json");
+const auth = firebaseAdmin.auth();
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-})
-
-const auth = admin.auth();
-
-async function authMiddleware(request: RequestOptions, response: Response, next: NextFunction) {
-  const token = request.headers.authorization?.split(' ')[1];
+async function authMiddleware(
+  request: RequestOptions,
+  response: Response,
+  next: NextFunction
+) {
+  const token = request.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    response.status(401).json({ message: 'No token provided' });
-    return
+    response.status(401).json({ message: "No token provided" });
+    return;
   }
 
   try {
@@ -24,10 +22,10 @@ async function authMiddleware(request: RequestOptions, response: Response, next:
     next();
   } catch (error: any) {
     response.status(401).json({
-      status: 'error',
-      message: 'Invalid token or credentials',
+      status: "error",
+      message: "Invalid token or credentials",
     });
   }
 }
 
-export default authMiddleware
+export default authMiddleware;

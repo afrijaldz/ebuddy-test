@@ -25,7 +25,6 @@ export const login = async ({ request, next }: ControllerParams) => {
 
   try {
     const data: any = await authCollection().login(email, password);
-
     if (!data) {
       request.data = null;
       request.message = "User not found";
@@ -33,7 +32,6 @@ export const login = async ({ request, next }: ControllerParams) => {
       request.status = "error";
       next();
     }
-
     request.data = data;
     request.statusCode = 200;
     next();

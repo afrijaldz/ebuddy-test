@@ -9,7 +9,12 @@ const createRoutes = (): IRouter => {
   const router = express.Router();
 
   router.use("/auth", authRoutes, responseMiddleware);
-  router.use("/users", authMiddleware, userRoutes, responseMiddleware);
+  router.use(
+    "/users",
+    authMiddleware
+    // userRoutes,
+    // responseMiddleware
+  );
 
   return router;
 };

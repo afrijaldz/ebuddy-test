@@ -1,5 +1,8 @@
-import {initializeApp} from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import admin from "firebase-admin";
+
+const serviceAccount = require("./ebuddy-test-firebase.json");
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDW-RVkyF4FBM3okNMHfCyjsljDWM7bNVs",
@@ -10,6 +13,9 @@ export const firebaseConfig = {
   appId: "1:336168882105:web:db2a7fb649413fd580b068",
 };
 
-export const firebaseApp = initializeApp(firebaseConfig)
-export const auth = getAuth(firebaseApp)
+export const firebaseApp = initializeApp(firebaseConfig);
+export const auth = getAuth(firebaseApp);
 
+export const firebaseAdmin = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
