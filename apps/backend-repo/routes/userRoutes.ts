@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-// import { getUsers, updateUser } from '../controller/userController';
+import { getUsers, updateUser } from "../controller/userController";
 
 const router = Router();
 
-// router.post('/fetch-user-data', getUsers);
-// router.post('/update-user-data', updateUser);
+router.get("/fetch-user-data", getUsers);
+router.put("/update-user-data/:user_id", updateUser);
 
 export default router;

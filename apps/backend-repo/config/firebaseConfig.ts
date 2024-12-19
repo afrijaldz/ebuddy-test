@@ -18,4 +18,5 @@ export const auth = getAuth(firebaseApp);
 
 export const firebaseAdmin = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://ebuddy-test-a785f.firebaseio.com",
 });

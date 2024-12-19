@@ -1,9 +1,13 @@
+import { NextFunction, Response } from "express";
 import authCollection from "../repository/authCollection";
-import { ControllerParams } from "../types/controller";
+import { RequestOptions } from "../types/controller";
 
-export const register = async ({ request, next }: ControllerParams) => {
+export const register = async (
+  request: RequestOptions,
+  _: Response,
+  next: NextFunction
+) => {
   const { email, password, displayName } = request.body;
-
   try {
     const data = await authCollection().register(email, password, displayName);
     if (data) {
@@ -20,7 +24,11 @@ export const register = async ({ request, next }: ControllerParams) => {
   }
 };
 
-export const login = async ({ request, next }: ControllerParams) => {
+export const login = async (
+  request: RequestOptions,
+  _: Response,
+  next: NextFunction
+) => {
   const { email, password } = request.body;
 
   try {
