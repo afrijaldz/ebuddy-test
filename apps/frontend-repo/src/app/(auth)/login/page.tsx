@@ -41,31 +41,44 @@ export default function Login() {
     });
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
+  const validateInputs = async (e: Event) => {
+    e.preventDefault()
+    
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: 'menxgapa333e33@gmail.com',
+        password: 'mengapa',
+        displayName: "ijul ijul"
+      })
+    })
 
-    let isValid = true;
+    const response = await res.json()
+    console.log(response)
+    // const email = document.getElementById('email') as HTMLInputElement;
+    // const password = document.getElementById('password') as HTMLInputElement;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
+    // let isValid = true;
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
+    // if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    //   setEmailError(true);
+    //   setEmailErrorMessage('Please enter a valid email address.');
+    //   isValid = false;
+    // } else {
+    //   setEmailError(false);
+    //   setEmailErrorMessage('');
+    // }
 
-    return isValid;
+    // if (!password.value || password.value.length < 6) {
+    //   setPasswordError(true);
+    //   setPasswordErrorMessage('Password must be at least 6 characters long.');
+    //   isValid = false;
+    // } else {
+    //   setPasswordError(false);
+    //   setPasswordErrorMessage('');
+    // }
+
+    // return isValid;
   };
 
 

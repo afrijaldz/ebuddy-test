@@ -152,13 +152,13 @@ export default function Login() {
         }}>or</Divider>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Typography sx={{ textAlign: 'center' }}>
-            Don&apos;t have an account?{' '}
+            Already have an account?{' '}
             <Link
-              href="/register"
+              href="/login"
               variant="body2"
               sx={{ alignSelf: 'center' }}
             >
-              Sign up
+              Login
             </Link>
           </Typography>
         </Box>
