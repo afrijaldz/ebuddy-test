@@ -4,18 +4,21 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import ModeSwitch from '@/components/ModeSwitch';
+import AppBar from '@/components/AppBar'
+import { cookies } from 'next/headers';
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('token')
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <InitColorSchemeScript attribute="class" />
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <ModeSwitch />
+            {token && <AppBar />}
             {props.children}
           </ThemeProvider>
         </AppRouterCacheProvider>
