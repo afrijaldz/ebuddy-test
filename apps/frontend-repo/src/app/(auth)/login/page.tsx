@@ -5,82 +5,16 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';
-import NextLink from 'next/link';
 
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
+import { signin } from '@/actions/auth';
 
 export default function Login() {
-
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  const validateInputs = async (e: Event) => {
-    e.preventDefault()
-    
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: 'menxgapa333e33@gmail.com',
-        password: 'mengapa',
-        displayName: "ijul ijul"
-      })
-    })
-
-    const response = await res.json()
-    console.log(response)
-    // const email = document.getElementById('email') as HTMLInputElement;
-    // const password = document.getElementById('password') as HTMLInputElement;
-
-    // let isValid = true;
-
-    // if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-    //   setEmailError(true);
-    //   setEmailErrorMessage('Please enter a valid email address.');
-    //   isValid = false;
-    // } else {
-    //   setEmailError(false);
-    //   setEmailErrorMessage('');
-    // }
-
-    // if (!password.value || password.value.length < 6) {
-    //   setPasswordError(true);
-    //   setPasswordErrorMessage('Password must be at least 6 characters long.');
-    //   isValid = false;
-    // } else {
-    //   setPasswordError(false);
-    //   setPasswordErrorMessage('');
-    // }
-
-    // return isValid;
-  };
-
+  const [state, action, pending] = React.useActionState(signin, undefined)
 
   return (
     <Container maxWidth="md">
@@ -107,7 +41,7 @@ export default function Login() {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleSubmit}
+          action={action}
           noValidate
           sx={{
             paddingTop: '1.5rem',
@@ -120,8 +54,8 @@ export default function Login() {
           <FormControl>
             <FormLabel htmlFor="email">Email</FormLabel>
             <TextField
-              error={emailError}
-              helperText={emailErrorMessage}
+              error={!!state?.errors.email}
+              helperText={state?.errors.email}
               id="email"
               type="email"
               name="email"
@@ -131,31 +65,30 @@ export default function Login() {
               required
               fullWidth
               variant="outlined"
-              color={emailError ? 'error' : 'primary'}
+              color={!!state?.errors.email ? 'error' : 'primary'}
             />
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="password">Password</FormLabel>
             <TextField
-              error={passwordError}
-              helperText={passwordErrorMessage}
+              error={!!state?.errors.password}
+              helperText={state?.errors.password}
               name="password"
               placeholder="••••••"
               type="password"
               id="password"
-              autoComplete="current-password"
-              autoFocus
+              autoComplete="password"
               required
               fullWidth
               variant="outlined"
-              color={passwordError ? 'error' : 'primary'}
+              color={!!state?.errors.password ? 'error' : 'primary'}
             />
           </FormControl>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            onClick={validateInputs}
+            disabled={pending}
           >
             Sign in
           </Button>
