@@ -30,6 +30,14 @@ export const LoginFormSchema = z.object({
     .trim(),
 });
 
+export const UserFormSchema = z.object({
+  uid: z.string().trim(),
+  name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long." })
+    .trim(),
+});
+
 export type FormStateRegister =
   | {
       errors?: {
@@ -46,6 +54,18 @@ export type FormStateLogin =
       errors?: {
         email?: string[];
         password?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
+
+export type FormStateUser =
+  | {
+      errors?: {
+        name?: string[];
+        email?: string[];
+        address?: string[];
+        phone?: string[];
       };
       message?: string;
     }

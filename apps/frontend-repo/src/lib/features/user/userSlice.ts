@@ -11,7 +11,7 @@ const initialState: UserSliceState = {
 };
 
 export const getUsers = createAsyncThunk("users/getUsers", async () => {
-  const res = await fetch("/api/users", {
+  const res = await fetch("/api/users/all", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
