@@ -1,6 +1,6 @@
 import {
   SignupFormSchema,
-  FormState,
+  FormStateRegister,
   FormStateLogin,
   LoginFormSchema,
 } from "@/lib/definitions";
@@ -8,7 +8,7 @@ import { createSession } from "@/lib/session";
 import { ResponseAuthLogin, ResponseAuthRegister } from "@/types/auth";
 import { redirect } from "next/navigation";
 
-export async function signup(state: FormState, formData: FormData) {
+export async function signup(_: FormStateRegister, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
     displayName: formData.get("displayName"),
     email: formData.get("email"),
@@ -33,7 +33,7 @@ export async function signup(state: FormState, formData: FormData) {
   }
 }
 
-export async function signin(state: FormStateLogin, formData: FormData) {
+export async function signin(_: FormStateLogin, formData: FormData) {
   const validatedFields = LoginFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

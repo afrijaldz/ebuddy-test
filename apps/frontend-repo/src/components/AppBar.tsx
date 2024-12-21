@@ -11,8 +11,10 @@ import Container from '@mui/material/Container';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { deleteSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 function ResponsiveAppBar() {
 
@@ -21,8 +23,9 @@ function ResponsiveAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseUserMenu = async () => {
+    await deleteSession()
+    redirect('/')
   };
 
   return (

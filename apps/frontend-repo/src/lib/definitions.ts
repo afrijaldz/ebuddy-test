@@ -30,7 +30,7 @@ export const LoginFormSchema = z.object({
     .trim(),
 });
 
-export type FormState =
+export type FormStateRegister =
   | {
       errors?: {
         displayName?: string[];

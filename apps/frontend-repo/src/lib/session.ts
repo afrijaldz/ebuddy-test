@@ -14,3 +14,8 @@ export async function createSession(token: string) {
     path: "/",
   });
 }
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+}

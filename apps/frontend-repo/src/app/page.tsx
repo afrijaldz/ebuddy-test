@@ -1,11 +1,23 @@
+'use client'
 import * as React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import NextLink from 'next/link';
+import { Button } from '@mui/material';
+
+import {
+  getUsers,
+  selectUsers
+} from "@/lib/features/user/userSlice";
+
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const users = useAppSelector(selectUsers);
+
+  console.log(users)
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -18,11 +30,13 @@ export default function Home() {
         }}
       >
         <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-          Mencoba
+          User Data
         </Typography>
-        <Link href="/about" color="secondary" component={NextLink}>
-          Go to the about page
-        </Link>
+        
+
+        <Button variant='contained' onClick={() => dispatch(getUsers())}>
+          Fetch Users data
+        </Button>
       </Box>
     </Container>
   );

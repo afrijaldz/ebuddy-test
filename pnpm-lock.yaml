@@ -51,6 +51,9 @@ importers:
 
   apps/frontend-repo:
     dependencies:
+      '@ebuddy-test/types':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0

@@ -1,13 +1,17 @@
-const BASE_URL = 'http://localhost:3333'
+import { BASE_URL } from "@/helpers/constant";
+import { cookies } from "next/headers";
 
 export async function GET() {
-  const res = await fetch(, {
+  const cookieStore = await cookies();
+  const res = await fetch(`${BASE_URL}/api/users/fetch-user-data`, {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
-      'API-Key': process.env.DATA_API_KEY,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${cookieStore.get("token")?.value}`,
     },
-  })
-  const data = await res.json()
- 
-  return Response.json({ data })
+  });
+
+  const response = await res.json();
+
+  return Response.json(response);
 }

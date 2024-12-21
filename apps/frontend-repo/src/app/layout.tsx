@@ -6,12 +6,14 @@ import theme from '@/theme';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import AppBar from '@/components/AppBar'
 import { cookies } from 'next/headers';
+import { StoreProvider } from './StoreProvider';
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const cookieStore = await cookies()
   const token = cookieStore.get('token')
 
   return (
+    <StoreProvider>
     <html lang="en" suppressHydrationWarning>
       <body>
         <InitColorSchemeScript attribute="class" />
@@ -24,5 +26,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         </AppRouterCacheProvider>
       </body>
     </html>
+    </StoreProvider>
   );
 }
